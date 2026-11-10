@@ -7,14 +7,18 @@ document.addEventListener('DOMContentLoaded', () => {
   initColorTheme();
   initCanvas();
   renderProfile();
+  renderHeatmap();
   renderSkills();
   renderProjects('all');
   renderExperience();
+  renderArticles();
   renderTestimonials();
   initProjectModal();
   initFilterTabs();
   initContactForm();
   initCustomizer();
+  initCommandPalette();
+  initTerminal();
   initScrollEffects();
   initMobileMenu();
 

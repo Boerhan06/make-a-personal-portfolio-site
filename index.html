@@ -295,6 +295,28 @@
         <!-- Rendered dynamically by main.js -->
       </div>
 
+      <!-- GitHub Activity Heatmap -->
+      <div class="mt-8 glass-panel p-5 sm:p-6 rounded-2xl border border-slate-200/80 dark:border-slate-800">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+          <div class="flex items-center gap-2.5">
+            <i data-lucide="git-commit" class="w-4 h-4 text-emerald-500"></i>
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">Open Source Activity (1,842 commits past year)</span>
+          </div>
+          <div class="flex items-center gap-2 text-[11px] text-slate-400">
+            <span>Less</span>
+            <span class="w-2.5 h-2.5 rounded-sm bg-slate-200 dark:bg-slate-800"></span>
+            <span class="w-2.5 h-2.5 rounded-sm bg-emerald-900/60"></span>
+            <span class="w-2.5 h-2.5 rounded-sm bg-emerald-600/70"></span>
+            <span class="w-2.5 h-2.5 rounded-sm bg-emerald-400"></span>
+            <span>More</span>
+          </div>
+        </div>
+        <!-- Heatmap Grid -->
+        <div id="github-heatmap" class="overflow-x-auto pb-1 flex gap-1 justify-between">
+          <!-- Populated by main.js with 52 columns -->
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -447,6 +469,38 @@
           </div>
         </div>
 
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       ARTICLES & WRITING
+       ========================================================================== -->
+  <section id="articles" class="py-20 sm:py-28 relative z-10 border-t border-slate-200/60 dark:border-slate-800/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+        <div>
+          <div class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-indigo-500 accent-color mb-2">
+            <i data-lucide="book-open" class="w-4 h-4"></i>
+            Technical Writing &amp; Thoughts
+          </div>
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white">
+            Articles &amp; Architecture Notes
+          </h2>
+          <p class="text-slate-600 dark:text-slate-400 text-sm sm:text-base mt-2 max-w-xl">
+            Deep dives into distributed systems, frontend engineering, real-time networking, and applied generative AI.
+          </p>
+        </div>
+
+        <a href="#contact" class="text-xs font-semibold text-indigo-500 hover:text-indigo-600 dark:hover:text-indigo-400 flex items-center gap-1.5 py-2">
+          Suggest a topic <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+        </a>
+      </div>
+
+      <div id="articles-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+        <!-- Rendered by assets/js/main.js -->
       </div>
 
     </div>
@@ -812,6 +866,81 @@
       </p>
     </div>
   </aside>
+
+  <!-- ==========================================================================
+       COMMAND PALETTE (Cmd+K / Ctrl+K)
+       ========================================================================== -->
+  <div id="command-palette" class="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4 opacity-0 invisible pointer-events-none">
+    <!-- Backdrop -->
+    <div id="cmd-palette-backdrop" class="absolute inset-0 bg-slate-950/70 backdrop-blur-sm"></div>
+
+    <!-- Palette Modal -->
+    <div class="palette-window relative w-full max-w-lg glass-panel bg-white/95 dark:bg-slate-900/95 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden transform scale-95 transition-all">
+      
+      <!-- Input bar -->
+      <div class="p-3.5 border-b border-slate-200 dark:border-slate-800 flex items-center gap-3">
+        <i data-lucide="search" class="w-5 h-5 text-slate-400"></i>
+        <input 
+          type="text" 
+          id="cmd-palette-input"
+          placeholder="Type a command or jump to section..."
+          class="w-full bg-transparent text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none"
+        />
+        <span class="kbd-badge">ESC</span>
+      </div>
+
+      <!-- Action items list -->
+      <div id="cmd-palette-list" class="max-h-80 overflow-y-auto p-2 space-y-1">
+        <!-- Rendered dynamically by main.js -->
+      </div>
+
+      <!-- Palette footer -->
+      <div class="px-4 py-2.5 bg-slate-50/80 dark:bg-slate-950/60 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between text-[11px] text-slate-500">
+        <div class="flex items-center gap-3">
+          <span><span class="kbd-badge">↑↓</span> navigate</span>
+          <span><span class="kbd-badge">↵</span> select</span>
+        </div>
+        <span><span class="kbd-badge">⌘K</span> toggle</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       INTERACTIVE TERMINAL EASTER EGG MODAL
+       ========================================================================== -->
+  <div id="terminal-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 opacity-0 invisible pointer-events-none transition-all">
+    <div id="terminal-backdrop" class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm"></div>
+    <div class="relative w-full max-w-2xl bg-slate-950 rounded-2xl shadow-2xl border border-slate-800 font-mono text-xs overflow-hidden z-10">
+      
+      <div class="px-4 py-3 bg-slate-900 border-b border-slate-800 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <button id="close-terminal-dot" class="w-3 h-3 rounded-full bg-rose-500 hover:opacity-80"></button>
+          <span class="w-3 h-3 rounded-full bg-amber-500"></span>
+          <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+          <span class="text-xs text-slate-400 ml-2">alex-chen@portfolio-shell: ~</span>
+        </div>
+        <button id="close-terminal-btn" class="text-slate-400 hover:text-white">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <div id="terminal-output" class="p-4 h-72 overflow-y-auto space-y-2 text-slate-300">
+        <p class="text-emerald-400">Welcome to Alex Chen's Interactive Terminal v1.0.0</p>
+        <p class="text-slate-500">Type <span class="text-indigo-400 font-bold">help</span> to view available commands, or <span class="text-indigo-400 font-bold">exit</span> to close.</p>
+      </div>
+
+      <div class="p-3 bg-slate-900/60 border-t border-slate-800 flex items-center gap-2">
+        <span class="text-emerald-400">user@chen:~$</span>
+        <input 
+          type="text" 
+          id="terminal-input"
+          placeholder="help, skills, projects, contact, whoami, clear, exit..."
+          class="w-full bg-transparent text-slate-100 focus:outline-none"
+        />
+      </div>
+
+    </div>
+  </div>
 
   <!-- Application Scripts -->
   <script src="assets/js/data.js"></script>
