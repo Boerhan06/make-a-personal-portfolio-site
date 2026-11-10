@@ -1,0 +1,261 @@
+/* ==========================================================================
+   Modern Personal Portfolio Styles
+   ========================================================================== */
+
+:root {
+  /* Default Primary Theme: Electric Indigo */
+  --primary: #6366f1;
+  --primary-hover: #4f46e5;
+  --primary-light: #e0e7ff;
+  --primary-rgb: 99, 102, 241;
+  --gradient-from: #6366f1;
+  --gradient-to: #a855f7;
+}
+
+/* Theme presets that can be switched dynamically */
+[data-theme-color="indigo"] {
+  --primary: #6366f1;
+  --primary-hover: #4f46e5;
+  --primary-light: #e0e7ff;
+  --primary-rgb: 99, 102, 241;
+  --gradient-from: #6366f1;
+  --gradient-to: #a855f7;
+}
+
+[data-theme-color="emerald"] {
+  --primary: #10b981;
+  --primary-hover: #059669;
+  --primary-light: #d1fae5;
+  --primary-rgb: 16, 185, 129;
+  --gradient-from: #10b981;
+  --gradient-to: #06b6d4;
+}
+
+[data-theme-color="cyan"] {
+  --primary: #06b6d4;
+  --primary-hover: #0891b2;
+  --primary-light: #cffafe;
+  --primary-rgb: 6, 182, 212;
+  --gradient-from: #06b6d4;
+  --gradient-to: #3b82f6;
+}
+
+[data-theme-color="rose"] {
+  --primary: #f43f5e;
+  --primary-hover: #e11d48;
+  --primary-light: #ffe4e6;
+  --primary-rgb: 244, 63, 94;
+  --gradient-from: #f43f5e;
+  --gradient-to: #fb923c;
+}
+
+[data-theme-color="violet"] {
+  --primary: #8b5cf6;
+  --primary-hover: #7c3aed;
+  --primary-light: #ede9fe;
+  --primary-rgb: 139, 92, 246;
+  --gradient-from: #8b5cf6;
+  --gradient-to: #ec4899;
+}
+
+[data-theme-color="amber"] {
+  --primary: #f59e0b;
+  --primary-hover: #d97706;
+  --primary-light: #fef3c7;
+  --primary-rgb: 245, 158, 11;
+  --gradient-from: #f59e0b;
+  --gradient-to: #ef4444;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.6);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(100, 116, 139, 0.4);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
+
+/* Dynamic Accent Helper Classes */
+.accent-color {
+  color: var(--primary) !important;
+}
+
+.accent-bg {
+  background-color: var(--primary) !important;
+}
+
+.accent-bg-hover:hover {
+  background-color: var(--primary-hover) !important;
+}
+
+.accent-border {
+  border-color: var(--primary) !important;
+}
+
+.accent-ring:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(var(--primary-rgb), 0.5);
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, var(--gradient-from), var(--gradient-to));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gradient-bg {
+  background: linear-gradient(135deg, var(--gradient-from), var(--gradient-to));
+}
+
+/* Ambient Canvas Background */
+#ambient-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.6;
+}
+
+/* Glassmorphism Classes */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.dark .glass-panel {
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(51, 65, 85, 0.5);
+}
+
+.glass-card {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 32px -8px rgba(var(--primary-rgb), 0.15);
+  border-color: rgba(var(--primary-rgb), 0.4);
+}
+
+/* Glow Badges */
+.status-pill {
+  box-shadow: 0 0 15px -3px rgba(16, 185, 129, 0.35);
+}
+
+/* Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+.animate-float {
+  animation: float 5s ease-in-out infinite;
+}
+
+@keyframes pulse-subtle {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(0.96); }
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 3s ease-in-out infinite;
+}
+
+/* Toast Notification */
+#toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  pointer-events: none;
+}
+
+.toast {
+  pointer-events: auto;
+  min-width: 280px;
+  max-width: 380px;
+  padding: 14px 18px;
+  border-radius: 12px;
+  background: #0f172a;
+  color: #f8fafc;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid #334155;
+  animation: slide-in 0.3s ease-out forwards;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.toast.toast-success {
+  border-left: 4px solid #10b981;
+}
+
+.toast.toast-info {
+  border-left: 4px solid var(--primary);
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.toast.hide {
+  opacity: 0;
+  transform: translateX(100%);
+}
+
+/* Customizer Drawer */
+#customizer-drawer {
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#customizer-drawer.drawer-open {
+  transform: translateX(0);
+}
+
+/* Modal styles */
+#project-modal {
+  transition: opacity 0.25s ease;
+}
+
+#project-modal.modal-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#project-modal .modal-content {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#project-modal.modal-open .modal-content {
+  transform: scale(1);
+}
