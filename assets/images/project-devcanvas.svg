@@ -36,7 +36,7 @@
   </g>
 
   <!-- Collaborative Cursors -->
-  <!-- Cursor 1 (Alex) -->
+  <!-- Cursor 2 (Burhan) -->
   <g transform="translate(420, 210)">
     <path d="M 0 0 L 16 16 L 8 18 L 12 28 L 8 30 L 4 20 L 0 24 Z" fill="#ec4899"/>
     <rect x="16" y="18" width="60" height="22" rx="4" fill="#ec4899"/>
@@ -46,8 +46,8 @@
   <!-- Cursor 2 -->
   <g transform="translate(240, 290)">
     <path d="M 0 0 L 16 16 L 8 18 L 12 28 L 8 30 L 4 20 L 0 24 Z" fill="#10b981"/>
-    <rect x="16" y="18" width="70" height="22" rx="4" fill="#10b981"/>
-    <text x="22" y="33" fill="#ffffff" font-family="system-ui, sans-serif" font-size="11" font-weight="600">Alex (Wasm)</text>
+    <rect x="16" y="18" width="80" height="22" rx="4" fill="#10b981"/>
+    <text x="22" y="33" fill="#ffffff" font-family="system-ui, sans-serif" font-size="11" font-weight="600">Burhan (Wasm)</text>
   </g>
 
   <!-- Properties Panel Floating on Right -->
