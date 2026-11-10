@@ -226,5 +226,35 @@ const portfolioData = {
       role: "Product Lead at DesignCraft",
       avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=150&q=80"
     }
+  ],
+
+  articles: [
+    {
+      id: "scaling-websockets",
+      title: "Scaling Real-Time WebSockets to 250k Concurrent Connections",
+      date: "Oct 2026",
+      readTime: "6 min read",
+      category: "Architecture",
+      snippet: "How we tuned Linux kernel epoll settings, reduced memory allocations in Node.js, and implemented distributed topic sharding with Redis clusters.",
+      link: "#scaling-websockets"
+    },
+    {
+      id: "hybrid-graphql-sse",
+      title: "Why We Swapped Heavy Polling for Server-Sent Events & Next.js 15",
+      date: "Aug 2026",
+      readTime: "5 min read",
+      category: "Frontend",
+      snippet: "A deep dive into reactive UI patterns, streaming HTTP responses, and edge caching strategies that reduced our cloud bill by 42%.",
+      link: "#hybrid-graphql-sse"
+    },
+    {
+      id: "local-llm-rag",
+      title: "Demystifying Local LLMs: Quantization, Vector Search, and RAG",
+      date: "Jun 2026",
+      readTime: "8 min read",
+      category: "AI / ML",
+      snippet: "A practical guide to running 4-bit quantized open-source models directly in browser and desktop apps using WebGPU and Wasm.",
+      link: "#local-llm-rag"
+    }
   ]
 };

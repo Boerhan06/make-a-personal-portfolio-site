@@ -259,3 +259,46 @@ html {
 #project-modal.modal-open .modal-content {
   transform: scale(1);
 }
+
+/* Command Palette (Cmd+K) */
+#command-palette {
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+#command-palette.palette-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+#command-palette .palette-window {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#command-palette.palette-open .palette-window {
+  transform: scale(1) translateY(0);
+}
+
+.kbd-badge {
+  font-family: monospace;
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: rgba(148, 163, 184, 0.15);
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  color: #94a3b8;
+}
+
+/* GitHub Heatmap Grid */
+.heatmap-cell {
+  width: 11px;
+  height: 11px;
+  border-radius: 2px;
+  transition: transform 0.15s ease, background-color 0.2s ease;
+}
+
+.heatmap-cell:hover {
+  transform: scale(1.35);
+  z-index: 10;
+}
+
