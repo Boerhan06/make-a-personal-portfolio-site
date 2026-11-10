@@ -921,7 +921,7 @@ function initTerminal() {
 
       // Append user prompt
       const userLine = document.createElement('div');
-      userLine.innerHTML = `<span class="text-emerald-400">user@chen:~$</span> <span class="text-white">${val}</span>`;
+      userLine.innerHTML = `<span class="text-emerald-400">user@burhan:~$</span> <span class="text-white">${val}</span>`;
       output.appendChild(userLine);
 
       // Handle command
