@@ -691,3 +691,282 @@ function showToast(message, type = 'info') {
     setTimeout(() => toast.remove(), 300);
   }, 3500);
 }
+
+/* ==========================================================================
+   13. GitHub Activity Heatmap Generator
+   ========================================================================== */
+function renderHeatmap() {
+  const container = document.getElementById('github-heatmap');
+  if (!container) return;
+
+  const weeks = 52;
+  const daysPerWeek = 7;
+  const levels = [
+    'bg-slate-200 dark:bg-slate-800/80',
+    'bg-emerald-900/60 dark:bg-emerald-900/80',
+    'bg-emerald-700/70 dark:bg-emerald-700/80',
+    'bg-emerald-500/80 dark:bg-emerald-500',
+    'bg-emerald-400 dark:bg-emerald-300'
+  ];
+
+  let html = '';
+  for (let w = 0; w < weeks; w++) {
+    html += '<div class="flex flex-col gap-1">';
+    for (let d = 0; d < daysPerWeek; d++) {
+      // Deterministic pseudo-random generation to look natural
+      const seed = Math.sin(w * 13 + d * 7) * 10000;
+      const rand = seed - Math.floor(seed);
+      let level = 0;
+      if (rand > 0.4) level = 1;
+      if (rand > 0.65) level = 2;
+      if (rand > 0.85) level = 3;
+      if (rand > 0.95) level = 4;
+
+      html += `<div class="heatmap-cell ${levels[level]}" title="Contributions: ${level > 0 ? (level * 3 + Math.floor(rand * 5)) : 0}"></div>`;
+    }
+    html += '</div>';
+  }
+
+  container.innerHTML = html;
+}
+
+/* ==========================================================================
+   14. Technical Articles & Writing Rendering
+   ========================================================================== */
+function renderArticles() {
+  const container = document.getElementById('articles-grid');
+  if (!container || !portfolioData.articles) return;
+
+  container.innerHTML = portfolioData.articles.map(art => `
+    <article class="glass-panel glass-card p-6 rounded-2xl flex flex-col justify-between group">
+      <div>
+        <div class="flex items-center justify-between gap-2 mb-3">
+          <span class="text-xs font-semibold px-2.5 py-1 rounded-md bg-indigo-500/10 text-indigo-500 accent-color">
+            ${art.category}
+          </span>
+          <span class="text-xs text-slate-500 dark:text-slate-400 font-mono">${art.readTime}</span>
+        </div>
+        <h3 class="text-lg font-bold text-slate-900 dark:text-white group-hover:text-indigo-500 transition-colors line-clamp-2">
+          ${art.title}
+        </h3>
+        <p class="text-sm text-slate-600 dark:text-slate-400 mt-2.5 leading-relaxed line-clamp-3">
+          ${art.snippet}
+        </p>
+      </div>
+      <div class="pt-5 mt-4 border-t border-slate-200/60 dark:border-slate-800 flex items-center justify-between">
+        <span class="text-xs text-slate-500 dark:text-slate-400 font-medium">${art.date}</span>
+        <button 
+          onclick="showToast('Read full writeup: ' + '${art.title.replace(/'/g, "\\'")}', 'info')"
+          class="text-xs font-semibold text-indigo-500 flex items-center gap-1 group-hover:translate-x-1 transition-transform"
+        >
+          Read article <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+        </button>
+      </div>
+    </article>
+  `).join('');
+
+  if (window.lucide) window.lucide.createIcons();
+}
+
+/* ==========================================================================
+   15. Command Palette (Cmd+K / Ctrl+K)
+   ========================================================================== */
+function initCommandPalette() {
+  const palette = document.getElementById('command-palette');
+  const trigger = document.getElementById('cmd-palette-btn');
+  const backdrop = document.getElementById('cmd-palette-backdrop');
+  const input = document.getElementById('cmd-palette-input');
+  const listContainer = document.getElementById('cmd-palette-list');
+
+  if (!palette || !input) return;
+
+  const actions = [
+    { title: 'Jump to Projects', category: 'Navigation', icon: 'folder-git-2', run: () => scrollToSection('#projects') },
+    { title: 'Jump to Skills', category: 'Navigation', icon: 'cpu', run: () => scrollToSection('#skills') },
+    { title: 'Jump to Experience', category: 'Navigation', icon: 'briefcase', run: () => scrollToSection('#experience') },
+    { title: 'Jump to Technical Writing', category: 'Navigation', icon: 'book-open', run: () => scrollToSection('#articles') },
+    { title: 'Jump to Contact', category: 'Navigation', icon: 'mail', run: () => scrollToSection('#contact') },
+    { title: 'Toggle Light / Dark Mode', category: 'Theme', icon: 'moon', run: () => document.getElementById('theme-toggle')?.click() },
+    { title: 'Set Accent: Electric Indigo', category: 'Customization', icon: 'palette', run: () => setPaletteColor('indigo') },
+    { title: 'Set Accent: Emerald Green', category: 'Customization', icon: 'palette', run: () => setPaletteColor('emerald') },
+    { title: 'Set Accent: Neon Cyan', category: 'Customization', icon: 'palette', run: () => setPaletteColor('cyan') },
+    { title: 'Set Accent: Royal Violet', category: 'Customization', icon: 'palette', run: () => setPaletteColor('violet') },
+    { title: 'Set Accent: Sunset Rose', category: 'Customization', icon: 'palette', run: () => setPaletteColor('rose') },
+    { title: 'Set Accent: Cyber Amber', category: 'Customization', icon: 'palette', run: () => setPaletteColor('amber') },
+    { title: 'Launch Interactive Terminal', category: 'Developer Tool', icon: 'terminal', run: () => openTerminal() },
+    { title: 'Copy Email Address', category: 'Action', icon: 'copy', run: () => document.getElementById('copy-email-btn')?.click() }
+  ];
+
+  function openPalette() {
+    palette.classList.add('palette-open');
+    input.value = '';
+    renderList(actions);
+    setTimeout(() => input.focus(), 50);
+  }
+
+  function closePalette() {
+    palette.classList.remove('palette-open');
+  }
+
+  function scrollToSection(id) {
+    const el = document.querySelector(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function setPaletteColor(color) {
+    document.documentElement.setAttribute('data-theme-color', color);
+    localStorage.setItem('theme-color', color);
+    showToast(`Accent theme updated to ${color.toUpperCase()} 🎨`, 'success');
+  }
+
+  function renderList(items) {
+    if (items.length === 0) {
+      listContainer.innerHTML = `<div class="p-4 text-center text-xs text-slate-500">No matching commands found</div>`;
+      return;
+    }
+
+    listContainer.innerHTML = items.map((item, idx) => `
+      <div 
+        class="cmd-item p-2.5 rounded-xl flex items-center justify-between cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 transition ${idx === 0 ? 'bg-slate-100 dark:bg-slate-800' : ''}" 
+        data-index="${idx}"
+      >
+        <div class="flex items-center gap-3">
+          <div class="w-7 h-7 rounded-lg bg-slate-200/80 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300">
+            <i data-lucide="${item.icon}" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <div class="text-xs font-semibold text-slate-900 dark:text-white">${item.title}</div>
+            <div class="text-[10px] text-slate-500">${item.category}</div>
+          </div>
+        </div>
+        <span class="kbd-badge">↵</span>
+      </div>
+    `).join('');
+
+    if (window.lucide) window.lucide.createIcons();
+
+    const domItems = listContainer.querySelectorAll('.cmd-item');
+    domItems.forEach(di => {
+      di.addEventListener('click', () => {
+        const index = parseInt(di.getAttribute('data-index'), 10);
+        closePalette();
+        items[index].run();
+      });
+    });
+  }
+
+  // Keyboard shortcut listener
+  window.addEventListener('keydown', (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault();
+      if (palette.classList.contains('palette-open')) {
+        closePalette();
+      } else {
+        openPalette();
+      }
+    }
+    if (e.key === 'Escape' && palette.classList.contains('palette-open')) {
+      closePalette();
+    }
+  });
+
+  input.addEventListener('input', (e) => {
+    const q = e.target.value.toLowerCase().trim();
+    const filtered = actions.filter(a => a.title.toLowerCase().includes(q) || a.category.toLowerCase().includes(q));
+    renderList(filtered);
+  });
+
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      const firstItem = listContainer.querySelector('.cmd-item');
+      if (firstItem) firstItem.click();
+    }
+  });
+
+  if (trigger) trigger.addEventListener('click', openPalette);
+  if (backdrop) backdrop.addEventListener('click', closePalette);
+}
+
+/* ==========================================================================
+   16. Interactive Terminal Easter Egg Modal
+   ========================================================================== */
+function initTerminal() {
+  const modal = document.getElementById('terminal-modal');
+  const input = document.getElementById('terminal-input');
+  const output = document.getElementById('terminal-output');
+  const closeBtn = document.getElementById('close-terminal-btn');
+  const dotBtn = document.getElementById('close-terminal-dot');
+  const backdrop = document.getElementById('terminal-backdrop');
+
+  if (!modal || !input) return;
+
+  window.openTerminal = function() {
+    modal.classList.remove('opacity-0', 'invisible', 'pointer-events-none');
+    setTimeout(() => input.focus(), 50);
+  };
+
+  function closeTerminal() {
+    modal.classList.add('opacity-0', 'invisible', 'pointer-events-none');
+  }
+
+  if (closeBtn) closeBtn.addEventListener('click', closeTerminal);
+  if (dotBtn) dotBtn.addEventListener('click', closeTerminal);
+  if (backdrop) backdrop.addEventListener('click', closeTerminal);
+
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      const val = input.value.trim();
+      if (!val) return;
+      input.value = '';
+
+      // Append user prompt
+      const userLine = document.createElement('div');
+      userLine.innerHTML = `<span class="text-emerald-400">user@chen:~$</span> <span class="text-white">${val}</span>`;
+      output.appendChild(userLine);
+
+      // Handle command
+      const responseLine = document.createElement('div');
+      responseLine.className = 'text-slate-300';
+      const cmd = val.toLowerCase();
+
+      switch (cmd) {
+        case 'help':
+          responseLine.innerHTML = `Available commands:<br>
+          • <span class="text-cyan-400">whoami</span>   - Developer background and philosophy<br>
+          • <span class="text-cyan-400">skills</span>   - Key technical stack<br>
+          • <span class="text-cyan-400">projects</span> - Production applications<br>
+          • <span class="text-cyan-400">contact</span>  - Direct connection links<br>
+          • <span class="text-cyan-400">clear</span>    - Clear the shell output<br>
+          • <span class="text-cyan-400">exit</span>     - Close the terminal window`;
+          break;
+        case 'whoami':
+          responseLine.innerHTML = `<span class="text-indigo-400">${portfolioData.profile.name}</span> — ${portfolioData.profile.role}.<br>${portfolioData.profile.bio}`;
+          break;
+        case 'skills':
+          responseLine.innerHTML = `<span class="text-yellow-400">Frontend:</span> TypeScript, React, Next.js, Tailwind, Vue<br>
+          <span class="text-yellow-400">Backend:</span> Node.js, Go, Python, PostgreSQL, Redis, Kafka<br>
+          <span class="text-yellow-400">Cloud/AI:</span> Docker, AWS, LangChain, Pinecone, Terraform`;
+          break;
+        case 'projects':
+          responseLine.innerHTML = portfolioData.projects.map(p => `• <span class="text-emerald-400">${p.title}</span> (${p.metrics})`).join('<br>');
+          break;
+        case 'contact':
+          responseLine.innerHTML = `Email: ${portfolioData.profile.email}<br>Location: ${portfolioData.profile.location}`;
+          break;
+        case 'clear':
+          output.innerHTML = '';
+          return;
+        case 'exit':
+          closeTerminal();
+          return;
+        default:
+          responseLine.innerHTML = `<span class="text-rose-400">command not found: ${val}</span>. Type <span class="text-cyan-400">help</span> for a list of valid commands.`;
+          break;
+      }
+
+      output.appendChild(responseLine);
+      output.scrollTop = output.scrollHeight;
+    }
+  });
+}
+
